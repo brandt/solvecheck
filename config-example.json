@@ -1,0 +1,7 @@
+{
+  "node_name":       "brandt",
+  "chef_server_url": "https://chef.example.com",
+  "berkshelf_url":   "http://chef.example.com:26200/universe",
+  "client_key":      "~/.chef/brandt.pem",
+  "sql_password":    "b08efda7821faee18389ebe4175665714ebe98381eeaf1287adfe80b97ba"
+}

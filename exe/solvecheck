@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require "solvecheck"
+require "json"
+require "pp"
+
+f = File.read File.join(File.dirname(File.dirname(__FILE__)), 'config.json')
+conf = JSON.parse(f)
+
+Solvecheck.configure do |c|
+  c.node_name       = conf['node_name']
+  c.chef_server_url = conf['chef_server_url']
+  c.berkshelf_url   = conf['berkshelf_url']
+  c.client_key      = conf['client_key']
+  c.sql_password    = conf['sql_password']
+  c.environment_whitelist = []
+end
+
+
+dependencies = {}
+Solvecheck.solve_all.map do |q|
+  dependencies[q.role.name] = q.result.packages
+end
+
+results_file = '/tmp/deps.json'
+warn "Writing results to: #{results_file}"
+File.write results_file, JSON.pretty_generate(dependencies)
